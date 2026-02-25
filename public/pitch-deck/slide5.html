@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
+    <title>Slide 5 - Module initial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f4f8',
+                            800: '#102a43', // Dark Blue
+                            900: '#0a192f',
+                        },
+                        cash: '#10B981',
+                        danger: '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f1f5f9;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide bg-white">
+
+        <!-- Header -->
+        <header class="bg-brand-900 flex-none px-12 py-1 shadow-md relative z-20">
+            <span
+                class="text-white text-[8px] font-bold uppercase tracking-[0.1em] bg-white/10 px-2 py-0.5 rounded">Étape
+                1 du plan</span>
+            <div class="flex justify-between items-center h-7 mt-0.5">
+                <h1 class="text-xl font-black text-white uppercase tracking-tight">
+                    Module initial : optimisation du recouvrement.
+                </h1>
+            </div>
+        </header>
+
+        <!-- Main Content (2 cols) -->
+        <div class="flex-1 flex px-12 py-3 gap-6 bg-slate-50 overflow-hidden relative">
+
+            <!-- Vertical Divider -->
+            <div class="absolute left-1/2 top-4 bottom-4 w-px bg-slate-200 z-0"></div>
+
+            <!-- Left Col: Pitch & Stats -->
+            <div class="w-1/2 flex flex-col justify-center z-10 py-1 pr-2">
+
+                <h3
+                    class="text-sm font-black text-brand-900 border-b-2 border-brand-800 pb-1 inline-block self-start mb-3">
+                    Mise en œuvre : <span class="font-normal text-slate-500 text-[10px] ml-2">Action directe sur le
+                        cash</span>
+                </h3>
+
+                <div
+                    class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 w-full flex flex-col justify-center mb-3">
+                    <p class="text-brand-900 text-[11px] font-black uppercase tracking-wider mb-3">Fonctionnalités clés
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-list-ol text-cash text-lg w-6 text-center"></i>
+                            <span class="font-bold text-sm text-slate-700">Priorisation structurée</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-step-forward text-slate-800 text-lg w-6 text-center"></i>
+                            <span class="font-bold text-sm text-slate-700">Relances progressives</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-chart-line text-orange-500 text-lg w-6 text-center"></i>
+                            <span class="font-bold text-sm text-slate-700">Pilotage hebdomadaire</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-user-check text-brand-800 text-lg w-6 text-center"></i>
+                            <span class="font-bold text-sm text-slate-700">Copilote sous contrôle humain — validation
+                                obligatoire des actions sensibles</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Simulation ROI Diagram -->
+                <div
+                    class="bg-brand-900 rounded-2xl p-5 border-l-4 border-cash relative flex-initial flex flex-col justify-center overflow-hidden shadow-xl">
+                    <i class="fa-solid fa-calculator absolute -right-4 -bottom-4 text-5xl text-cash opacity-10"></i>
+
+                    <div class="relative z-10 w-full text-center">
+                        <p class="text-[9px] text-cash font-black uppercase tracking-[0.4em] mb-3">Simulation financière
+                        </p>
+
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="flex-1 bg-white/5 rounded-xl p-3 border border-white/10 shadow-inner text-center">
+                                <p class="text-slate-400 text-[8px] font-bold uppercase mb-1">Stock identifié</p>
+                                <p class="text-white text-lg font-black tracking-tight">450 000 €</p>
+                            </div>
+
+                            <div class="text-brand-300 text-xl font-black italic">x</div>
+
+                            <div
+                                class="flex-1 bg-white/5 rounded-xl p-3 border border-white/10 shadow-inner text-center">
+                                <p class="text-slate-400 text-[8px] font-bold uppercase mb-1">Hypothèse</p>
+                                <p class="text-white text-lg font-black tracking-tight">+20% <span
+                                        class="text-[8px] text-slate-400 font-bold block uppercase mt-0.5">récupérables</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col bg-cash/10 rounded-2xl p-5 border border-cash/20 text-center">
+                            <p class="text-white font-black uppercase tracking-[0.3em] text-[11px] mb-1 opacity-80">
+                                Objectif mobilisable</p>
+                            <p class="text-cash text-6xl font-black tracking-tighter drop-shadow-sm">90 000 €</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Col: Dashboard Mockup -->
+            <div
+                class="w-1/2 flex flex-col z-10 bg-white rounded-3xl shadow-2xl border border-slate-200 p-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5 blur-sm pointer-events-none">
+                    <i class="fa-solid fa-chart-line text-[220px] text-cash"></i>
+                </div>
+
+                <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2 relative z-10">
+                    <p class="font-black text-brand-900 uppercase text-[10px] tracking-widest">
+                        <i class="fa-solid fa-desktop mr-2 text-slate-400"></i> Supervision en Temps Réel
+                    </p>
+                    <div class="flex gap-1.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards inside Dashboard -->
+                <div class="grid grid-cols-2 gap-2 mb-2 relative z-10">
+                    <div
+                        class="bg-slate-50 border border-slate-100 p-2.5 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">% Impayés
+                            </p>
+                            <p
+                                class="text-[11px] font-black text-green-600 uppercase flex items-center gap-1 leading-tight">
+                                <i class="fa-solid fa-arrow-down"></i> Baisse progressive
+                            </p>
+                        </div>
+                        <i class="fa-solid fa-chart-pie text-slate-200 text-lg"></i>
+                    </div>
+                    <div
+                        class="bg-slate-50 border border-slate-100 p-2.5 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Montant
+                                Sécurisé</p>
+                            <p class="text-base font-black text-brand-900 leading-none">80k€ - 160k€</p>
+                        </div>
+                        <i class="fa-solid fa-sack-dollar text-slate-200 text-lg"></i>
+                    </div>
+                    <div
+                        class="bg-slate-50 border border-slate-100 p-2.5 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Appels
+                                Filtrés</p>
+                            <p class="text-base font-black text-brand-900 leading-none">60 - 75%</p>
+                        </div>
+                        <i class="fa-solid fa-filter text-slate-200 text-lg"></i>
+                    </div>
+                    <div
+                        class="bg-slate-50 border border-slate-100 p-2.5 rounded-xl flex items-center justify-between shadow-sm">
+                        <div>
+                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Temps
+                                Dégagé
+                            </p>
+                            <p class="text-base font-black text-brand-900 leading-none">10-15h<span
+                                    class="text-[8px] font-bold ml-1 text-slate-400 uppercase tracking-tighter">/sem.</span>
+                            </p>
+                        </div>
+                        <i class="fa-solid fa-clock text-slate-200 text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Linechart Cash Evolution (Projection Tresorerie) -->
+                <div
+                    class="flex-1 w-full relative bg-slate-50 border border-slate-100 p-3 rounded-2xl shadow-sm z-10 flex flex-col justify-center">
+                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-2 text-center">
+                        Projection Trésorerie Sécurisée (60j)</p>
+                    <div class="flex-1 min-h-[220px]"><canvas id="lineChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center py-1 bg-white border-t border-slate-50">
+            <p class="text-[8px] text-slate-300 font-medium uppercase tracking-[0.2em]">Conforme RGPD – Traçabilité des
+                actions – Logs conservés</p>
+        </div>
+    </div>
+
+    <script>
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        const gradient = ctxLine.createLinearGradient(0, 0, 0, 250);
+        gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+        gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['J0', 'J15', 'J30', 'J45', 'J60'],
+                datasets: [{
+                    label: 'Cash Flow (€)',
+                    data: [0, 45000, 95000, 150000, 185000],
+                    borderColor: '#10B981',
+                    borderWidth: 5,
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4,
+                    borderCapStyle: 'round',
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#10B981',
+                    pointBorderWidth: 4,
+                    pointRadius: 0,
+                    pointHoverRadius: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        display: true,
+                        grid: { color: '#f1f5f9', drawBorder: false },
+                        ticks: {
+                            font: { size: 10, weight: '800' },
+                            color: '#94a3b8',
+                            callback: function (value) { return "+" + (value / 1000) + "k€"; }
+                        }
+                    },
+                    x: {
+                        display: true,
+                        grid: { display: false },
+                        ticks: {
+                            font: { size: 10, weight: '800' },
+                            color: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

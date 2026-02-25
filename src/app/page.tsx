@@ -208,10 +208,14 @@ export default function Home() {
 
           <FadeUp delay={0.2}>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#demo"
+              <a href="/estimation"
                 className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase px-8 py-4 rounded-xl transition-colors group shadow-lg shadow-blue-600/25">
-                Obtenir mon estimation confidentielle en 30 minutes
+                Lancer l&apos;estimation
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <a href="#demo"
+                className="inline-flex items-center gap-3 border border-blue-200 text-blue-600 hover:bg-blue-50 font-bold text-sm tracking-wide uppercase px-8 py-4 rounded-xl transition-colors">
+                Planifier un RDV
               </a>
             </div>
           </FadeUp>
@@ -297,15 +301,15 @@ export default function Home() {
               </div>
 
               {/* CTA */}
-              <a href="/simulateur"
+              <a href="/estimation"
                 className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase py-4 rounded-xl transition-colors group">
                 <Calculator className="w-4 h-4" />
                 Calculer mon potentiel
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </a>
               <p className="mt-3 text-center text-xs text-gray-400">
-                Calcul basé exclusivement sur les données saisies.<br />
-                Aucune hypothèse externe non visible.
+                Accès réservé aux cabinets de syndic professionnels.<br />
+                Estimation confidentielle — 2 minutes.
               </p>
             </div>
           </FadeUp>

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit de Pilotage Financier - Trésorerie IA Syndic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            400: '#34d399',
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── DESIGN SYSTEM TOKENS ─────────────────────────────── */
+        :root {
+            --font-size: 16px;
+            --background: #ffffff;
+            --foreground: #0a0a0f;
+            --card: #ffffff;
+            --border: rgba(0, 0, 0, 0.1);
+            --input-bg: #f3f3f5;
+            --muted: #ececf0;
+            --muted-fg: #717182;
+            --primary: #030213;
+            --radius: 0.625rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%);
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* ── ANIMATIONS ───────────────────────────────────────── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .anim-fade-up {
+            animation: fadeUp 0.55s ease both;
+        }
+
+        .anim-fade-up-d {
+            animation: fadeUp 0.55s 0.2s ease both;
+        }
+
+        .anim-scale-in {
+            animation: scaleIn 0.6s ease both;
+        }
+
+        .anim-fade {
+            animation: fadeIn 0.5s 0.35s ease both;
+        }
+
+        /* ── METRIC CARD ──────────────────────────────────────── */
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+        }
+
+        /* ── STRATEGIC CARD ───────────────────────────────────── */
+        .strategic-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+        }
+
+        .strategic-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M36 18c3.314 0 6 2.686 6 6s-2.686 6-6 6-6-2.686-6-6 2.686-6 6-6' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .strategic-card>div {
+            position: relative;
+        }
+
+        /* ── INPUT PANEL ──────────────────────────────────────── */
+        .input-panel-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border-radius: 2px;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #0f172a;
+            background-color: #ffffff;
+        }
+
+        .input-group input:focus {
+            border-color: #0f172a;
+            box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .input-group input.field-error {
+            border-color: #f87171;
+            background-color: #fff5f5;
+        }
+
+        .field-hint {
+            font-size: 0.6rem;
+            color: #f87171;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.35rem;
+            display: none;
+        }
+
+        .field-hint.visible {
+            display: block;
+        }
+
+        /* ── DIVIDER GRADIENT ─────────────────────────────────── */
+        .divider-h {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        }
+
+        /* ── METRIC VALUES ────────────────────────────────────── */
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #047857;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        /* ── SEPARATEUR VERTICAL ──────────────────────────────── */
+        .sep-v {
+            width: 1px;
+            background: linear-gradient(180deg, #e2e8f0, #cbd5e1, #e2e8f0);
+            align-self: stretch;
+            flex-shrink: 0;
+        }
+
+        /* ── TABLE STYLES ─────────────────────────────────────── */
+        .data-table {
+            width: 100%;
+            font-size: 0.75rem;
+            border-collapse: collapse;
+        }
+
+        .data-table thead td,
+        .data-table thead th {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            padding: 0.75rem 0.75rem;
+            background: #f8fafc;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .data-table tbody tr.row-base {
+            background: rgba(236, 253, 245, 0.6);
+        }
+
+        .data-table tbody tr.row-base:hover {
+            background: rgba(236, 253, 245, 1);
+        }
+
+        .data-table td {
+            padding: 0.75rem 0.75rem;
+        }
+
+        .data-table td.text-right {
+            text-align: right;
+        }
+
+        /* ── CTA BUTTON ───────────────────────────────────────── */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #0f172a;
+            color: white;
+            font-weight: 700;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 1.25rem 3rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-audit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #047857;
+            color: white;
+            font-weight: 700;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 1.1rem 2.5rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-audit:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* ── RESULTS STATE ────────────────────────────────────── */
+        .results-section {
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .results-section.dimmed {
+            opacity: 0.2;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        /* ── ICON CONTAINER ───────────────────────────────────── */
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            background: #0f172a;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* ── STICKY SIDEBAR ───────────────────────────────────── */
+        @media (min-width: 1024px) {
+            .sidebar-sticky {
+                position: sticky;
+                top: 2rem;
+            }
+        }
+
+        /* ── HOVER STAT CARDS ─────────────────────────────────── */
+        .stat-cell {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            transition: transform 0.2s, background 0.2s;
+            padding: 1.5rem;
+        }
+
+        .stat-cell:hover {
+            transform: scale(1.04);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── SEUIL CARD ───────────────────────────────────────── */
+        .seuil-highlight {
+            background: linear-gradient(135deg, #ecfdf5, rgba(209, 250, 229, 0.5));
+            border: 1px solid #a7f3d0;
+            padding: 1.25rem;
+            text-align: center;
+            border-radius: 2px;
+        }
+
+        /* ── ALERT AMBER ──────────────────────────────────────── */
+        .alert-amber {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            padding: 1rem;
+            border-radius: 2px;
+        }
+
+        .alert-amber-soft {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 0.875rem 1rem;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto py-16 px-4 lg:px-8">
+
+        <!-- ── HEADER ─────────────────────────────────────────────── -->
+        <header class="mb-20 border-b-2 border-slate-200 pb-12 anim-fade-up">
+            <div class="flex items-start gap-5 mb-2">
+                <div class="icon-box mt-1">
+                    <!-- TrendingUp icon -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                        <polyline points="16 7 22 7 22 13" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400 mb-4 block">Document
+                        Confidentiel — Rapport d'Analyse</span>
+                    <h1 class="text-5xl font-black text-slate-900 tracking-tight uppercase mb-5 leading-none">
+                        Audit de Pilotage Financier</h1>
+                    <p class="text-slate-600 font-medium text-lg max-w-3xl leading-relaxed">
+                        Simulation objective de la trésorerie immobilisée et valorisation des impacts opérationnels
+                        suite à une démarche d'optimisation du recouvrement.</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+            <!-- ── LEFT: INPUTS ───────────────────────────────────── -->
+            <div class="lg:col-span-4 anim-fade-up-d">
+                <div class="sidebar-sticky">
+                    <div class="metric-card overflow-hidden">
+
+                        <!-- Panel Header dark gradient -->
+                        <div class="input-panel-header px-8 py-6">
+                            <div class="flex items-center gap-3">
+                                <!-- Users icon -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                                <h2 class="text-sm font-bold uppercase tracking-[0.15em] text-white">
+                                    Données de Structure</h2>
+                            </div>
+                        </div>
+
+                        <!-- Fields -->
+                        <div class="p-8 space-y-6">
+                            <div class="input-group">
+                                <label>Nombre de lots gérés <span
+                                        class="text-red-400 normal-case tracking-normal">*</span></label>
+                                <input type="number" id="inp-lots" value="1500" oninput="calculate()" min="1">
+                                <p class="field-hint" id="hint-lots">Champ requis pour générer une estimation fiable.
+                                </p>
+                            </div>
+                            <div class="input-group">
+                                <label>Taux actuel d'impayés (%) <span
+                                        class="text-red-400 normal-case tracking-normal">*</span></label>
+                                <input type="number" id="inp-pct" value="20" oninput="calculate()" min="0.1" max="100">
+                                <p class="field-hint" id="hint-pct">Champ requis pour générer une estimation fiable.</p>
+                            </div>
+                            <div class="input-group">
+                                <label>Montant moyen d'un impayé (€) <span
+                                        class="text-red-400 normal-case tracking-normal">*</span></label>
+                                <input type="number" id="inp-moy" value="1500" oninput="calculate()" min="1">
+                                <p class="field-hint" id="hint-moy">Champ requis pour générer une estimation fiable.</p>
+                            </div>
+
+                            <div class="py-2">
+                                <div class="divider-h"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Demandes entrantes / semaine <span
+                                        class="text-red-400 normal-case tracking-normal">*</span></label>
+                                <input type="number" id="inp-appels" value="300" oninput="calculate()" min="1">
+                                <p class="field-hint" id="hint-appels">Champ requis pour générer une estimation fiable.
+                                </p>
+                            </div>
+                            <div class="input-group">
+                                <label>Coût horaire moyen gestionnaire (€)</label>
+                                <input type="number" id="inp-taux" value="35" oninput="calculate()">
+                            </div>
+
+                            <div class="py-2">
+                                <div class="divider-h"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Frais de mise en place (€)</label>
+                                <input type="number" id="inp-frais" value="5000" oninput="calculate()">
+                            </div>
+                            <div class="input-group">
+                                <label>Abonnement mensuel (€)</label>
+                                <input type="number" id="inp-coutm" value="800" oninput="calculate()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── RIGHT: RESULTS ─────────────────────────────────── -->
+            <div class="lg:col-span-8 space-y-8">
+
+                <!-- 01. Trésorerie Immobilisée -->
+                <div class="metric-card p-10 results-section anim-fade" id="section-stock">
+                    <div class="flex items-start gap-10">
+                        <div class="flex-1">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">
+                                01. État des Lieux — Passif</p>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Trésorerie Immobilisée
+                            </h3>
+                            <p class="text-sm text-slate-500 leading-relaxed">Encours d'impayés actuellement retenus
+                                dans
+                                le cycle d'exploitation (Lots × % impayés × Montant moyen).</p>
+                        </div>
+                        <div class="sep-v"></div>
+                        <div class="flex-none text-right min-w-[220px]">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Impact de
+                                l'Inaction</p>
+                            <p class="metric-value" id="res-bloque">—</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02. Projection Mobilisation -->
+                <div class="metric-card p-10 results-section" id="section-recup">
+                    <div class="flex items-start gap-10 mb-8">
+                        <div class="flex-1">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">
+                                02. Projection de Mobilisation</p>
+                            <h3 class="text-2xl font-bold text-slate-900 tracking-tight">Optimisation du Stock Existant
+                            </h3>
+                        </div>
+                        <div class="sep-v"></div>
+                        <div class="flex-none text-right min-w-[220px]">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Cash
+                                Mobilisable (Cycle 60J)</p>
+                            <p class="metric-value" id="res-recup-stock">—</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-100 pt-8">
+                        <div class="flex items-center gap-8">
+                            <div class="flex-1">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-2">Hypothèse
+                                    Conservatrice</p>
+                                <p class="text-3xl font-bold text-slate-900">20,0%</p>
+                            </div>
+                            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-sm">
+                                <!-- CheckCircle2 -->
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- Warning potentiel faible -->
+                        <div id="msg-faible" class="hidden alert-amber-soft mt-6">
+                            <p class="text-[10px] text-amber-800 font-bold uppercase tracking-wider">
+                                Le potentiel estimé nécessite une validation approfondie pour garantir une projection
+                                réaliste.
+                            </p>
+                        </div>
+                        <p class="text-[9px] text-slate-400 font-medium uppercase tracking-wider italic mt-6">
+                            Projection basée sur données cabinet – audit préalable recommandé.</p>
+                    </div>
+                </div>
+
+                <!-- 03. Performance Opérationnelle -->
+                <div class="metric-card p-10 results-section" id="section-ops">
+                    <div class="flex items-start gap-10 mb-8">
+                        <div class="flex-1">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">
+                                03. Performance Opérationnelle</p>
+                            <h3 class="text-2xl font-bold text-slate-900 tracking-tight">Valorisation du Temps de
+                                Pilotage</h3>
+                        </div>
+                        <div class="sep-v"></div>
+                        <div class="flex-none text-right min-w-[220px]">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">
+                                Valorisation
+                                Interne Économisée</p>
+                            <p class="metric-value" id="res-valeur-temps">—</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-100 pt-8">
+                        <div class="flex items-center gap-6">
+                            <!-- Clock icon -->
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            <div class="flex-1">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-2">Gain de
+                                    Temps de Gestion</p>
+                                <p class="text-3xl font-bold text-slate-900">
+                                    <span id="res-heures-an">—</span><span id="res-heures-label"
+                                        class="hidden text-lg ml-2 font-semibold text-slate-500"> HR / AN</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-slate-400 font-medium uppercase tracking-wider italic mt-6">
+                            Projection basée sur données cabinet – audit préalable recommandé.</p>
+                    </div>
+                </div>
+
+                <!-- 04. Analyse de Rentabilité (dark) -->
+                <div class="strategic-card results-section" id="section-renta">
+                    <div class="p-12 text-center space-y-12">
+                        <div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-6">Synthèse
+                                Immédiate — Point Mort</p>
+                            <h3 class="text-4xl font-black text-white uppercase tracking-tight">Analyse de Rentabilité
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-6">
+                            <div class="stat-cell text-center">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">Cash
+                                    Sécurisable</p>
+                                <p class="text-3xl font-black text-emerald-400" id="ii-cash">—</p>
+                            </div>
+                            <div class="stat-cell text-center">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">
+                                    Investissement
+                                    60J</p>
+                                <p class="text-3xl font-black text-slate-300" id="ii-invest">—</p>
+                            </div>
+                            <div class="stat-cell text-center">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">Seuil
+                                    d'Équilibre</p>
+                                <p class="text-3xl font-black text-emerald-400">
+                                    <span id="ii-couvert">—</span><span id="ii-couvert-label"
+                                        class="hidden text-lg ml-1"> UNITÉS</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-400 font-medium text-sm pt-4">L'opération est intégralement couverte avant
+                            la
+                            fin du premier cycle d'activation.</p>
+                    </div>
+                </div>
+
+                <!-- Tables : Sensibilité + Seuil -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 results-section" id="section-tables">
+
+                    <!-- Sensibilité -->
+                    <div class="metric-card overflow-hidden">
+                        <div
+                            class="flex items-center gap-2 px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
+                            <!-- Target icon -->
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <circle cx="12" cy="12" r="6" />
+                                <circle cx="12" cy="12" r="2" />
+                            </svg>
+                            <h3 class="text-[11px] font-bold text-slate-700 uppercase tracking-widest">Analyse de
+                                Sensibilité</h3>
+                        </div>
+                        <div class="p-0">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Hypothèse</th>
+                                        <th class="text-right">Cash Mobilisé</th>
+                                        <th class="text-right">ROI NET 60J</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold text-slate-500">15%</td>
+                                        <td class="text-right font-medium text-slate-700" id="sens-15-cash">—</td>
+                                        <td class="text-right font-bold text-emerald-700" id="sens-15-roi">—</td>
+                                    </tr>
+                                    <tr class="row-base">
+                                        <td class="font-bold text-slate-900">20% (Base)</td>
+                                        <td class="text-right font-bold text-slate-900" id="sens-20-cash">—</td>
+                                        <td class="text-right font-black text-emerald-700" id="sens-20-roi">—</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold text-slate-500">30%</td>
+                                        <td class="text-right font-medium text-slate-700" id="sens-30-cash">—</td>
+                                        <td class="text-right font-bold text-emerald-700" id="sens-30-roi">—</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Seuil de Rentabilité -->
+                    <div class="metric-card overflow-hidden flex flex-col">
+                        <div
+                            class="flex items-center gap-2 px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
+                            <!-- CheckCircle2 -->
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#475569"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                            <h3 class="text-[11px] font-bold text-slate-700 uppercase tracking-widest">Seuil de
+                                Rentabilité</h3>
+                        </div>
+                        <div class="p-6 space-y-4 flex-1 flex flex-col">
+                            <div class="space-y-3 flex-1">
+                                <div class="flex justify-between items-center py-3 border-b border-slate-100">
+                                    <span
+                                        class="font-medium text-slate-600 text-[10px] uppercase tracking-wider">Couverture
+                                        Immédiate (Setup)</span>
+                                    <span class="font-bold text-slate-900 text-lg" id="sr-setup">—</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-slate-100">
+                                    <span
+                                        class="font-medium text-slate-600 text-[10px] uppercase tracking-wider">Équilibre
+                                        Opérationnel (60J)</span>
+                                    <span class="font-bold text-slate-900 text-lg" id="sr-60j">—</span>
+                                </div>
+                            </div>
+                            <div class="seuil-highlight mt-auto">
+                                <p class="text-[10px] text-slate-700 uppercase font-bold tracking-wider">
+                                    ROI Positif atteint dès le
+                                    <span class="text-emerald-700 text-2xl font-black mx-1" id="sr-positif">—</span>
+                                    <sup class="text-xs">ᵉ</sup> impayé régularisé.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coût d'Inaction -->
+                <div class="metric-card p-10 results-section" id="section-inaction">
+                    <div class="flex items-start gap-10 mb-8">
+                        <div class="flex-1">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">
+                                04. Analyse de Risque</p>
+                            <h3 class="text-2xl font-bold text-slate-900 tracking-tight">Coût d'Inaction Mensuel</h3>
+                        </div>
+                        <div class="sep-v"></div>
+                        <div class="flex-none text-right min-w-[220px]">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Déficit de
+                                Trésorerie / Mois</p>
+                            <p class="metric-value" id="res-inaction">—</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-100 pt-6">
+                        <div class="alert-amber">
+                            <!-- AlertTriangle -->
+                            <svg class="flex-shrink-0 mt-0.5" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                            <p class="text-xs text-amber-900 font-medium">
+                                Chaque mois de retard représente une perte d'opportunité de
+                                <span class="font-bold" id="alert-inaction">—</span>
+                            </p>
+                        </div>
+                        <p class="text-[9px] text-slate-400 font-medium uppercase tracking-wider italic mt-5">
+                            Projection basée sur données cabinet – audit préalable recommandé.</p>
+                    </div>
+                </div>
+
+                <!-- ── SYNTHÈSE CHIFFRÉE ──────────────────────────── -->
+                <div class="strategic-card" id="synthese-chiffree">
+                    <div class="p-16 text-center space-y-12">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.4em]">Synthèse
+                            Décisionnelle</p>
+
+                        <div class="max-w-3xl mx-auto">
+                            <p class="text-2xl font-light leading-relaxed text-white">
+                                Votre cabinet immobilise actuellement
+                                <span class="font-bold border-b-2 border-emerald-400 pb-1 text-emerald-400"
+                                    id="txt-bloque">—</span>.<br>
+                                Une activation stratégique permettrait de sécuriser
+                                <span class="font-black text-emerald-400" id="txt-recup">—</span> sous 60 jours.
+                            </p>
+                        </div>
+
+                        <div class="pt-12 border-t border-white/10 max-w-xl mx-auto">
+                            <p class="text-slate-300 font-medium leading-relaxed">
+                                L'investissement est couvert par la régularisation de
+                                <span class="text-white font-bold text-xl" id="txt-pm">—</span> dossiers.<br>
+                                La décision initiale repose exclusivement sur le
+                                <span class="text-white font-bold uppercase tracking-widest italic">Calendrier
+                                    d'Activation</span>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── SYNTHÈSE ALTERNATIVE (données insuffisantes) ── -->
+                <div class="strategic-card" id="synthese-alternative" style="display:none;">
+                    <div class="p-14 text-center space-y-10">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.4em]">Synthèse
+                            Décisionnelle</p>
+
+                        <div class="max-w-2xl mx-auto space-y-8">
+                            <p class="text-xl font-light leading-relaxed text-slate-300">
+                                Les données fournies ne permettent pas une estimation automatisée fiable.
+                            </p>
+                            <p class="text-base font-medium text-slate-400">Un audit confidentiel de 30 minutes permet
+                                d'analyser précisément :</p>
+                            <ul class="text-left max-w-md mx-auto space-y-3 text-sm text-slate-300">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-emerald-400 mt-0.5 flex-shrink-0 font-bold">•</span>
+                                    <span>Votre stock réel d'impayés</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-emerald-400 mt-0.5 flex-shrink-0 font-bold">•</span>
+                                    <span>Le potentiel de trésorerie mobilisable</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-emerald-400 mt-0.5 flex-shrink-0 font-bold">•</span>
+                                    <span>Les leviers d'activation immédiats</span>
+                                </li>
+                            </ul>
+                            <p class="text-slate-500 text-sm italic leading-relaxed">
+                                La décision repose sur l'analyse concrète de vos flux réels, pas sur une estimation
+                                générique.
+                            </p>
+                        </div>
+
+                        <div class="pt-8 border-t border-white/10">
+                            <a href="#cta-audit" class="btn-audit">
+                                Planifier l'audit stratégique
+                                <!-- ArrowRight -->
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                    <polyline points="12 5 19 12 12 19" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── CTA FINAL ───────────────────────────────────── -->
+                <div id="cta-audit" class="metric-card overflow-hidden"
+                    style="border-width:2px; border-color:#e2e8f0; background: linear-gradient(135deg,#ffffff,#f8fafc);">
+                    <div class="p-16 text-center">
+                        <h3 class="text-3xl font-black text-slate-900 uppercase tracking-tight mb-6">
+                            Planifier l'Audit d'Activation</h3>
+                        <p class="text-slate-600 font-medium max-w-xl mx-auto mb-12 leading-relaxed">
+                            L'analyse présentée est basée sur vos données structurelles. Un audit confidentiel de 30
+                            minutes
+                            permet de valider précisément le potentiel réel et d'identifier les leviers d'activation
+                            immédiate.
+                        </p>
+
+                        <form class="max-w-md mx-auto space-y-6 text-left" onsubmit="event.preventDefault();">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="input-group">
+                                    <label>Lots gérés</label>
+                                    <input type="number" required placeholder="Ex: 50">
+                                </div>
+                                <div class="input-group">
+                                    <label>Logiciel Flux</label>
+                                    <input type="text" required placeholder="ICS, Crypto...">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Coordonnées Professionnelles</label>
+                                <input type="email" required placeholder="directeur@cabinet.com">
+                            </div>
+
+                            <div class="pt-8 text-center">
+                                <button type="submit" class="btn-primary mx-auto">
+                                    Solliciter l'estimation stratégique
+                                    <!-- ArrowRight -->
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12 5 19 12 12 19" />
+                                    </svg>
+                                </button>
+                                <p class="text-[9px] text-slate-400 font-medium mt-6 uppercase tracking-widest">
+                                    Protocole de confidentialité — Pilotage Novelpix</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer méthodologique -->
+                <div class="mt-16 pt-10 border-t-2 border-slate-200">
+                    <p class="text-[9px] text-slate-400 font-medium leading-relaxed mb-4 uppercase tracking-[0.05em]">
+                        Cadre Méthodologique de l'Analyse</p>
+                    <p class="text-[10px] text-slate-500 font-medium leading-relaxed max-w-3xl">
+                        Cette approche repose sur l'analyse des flux syndic observés en cabinet indépendant. Les calculs
+                        sont réalisés exclusivement à partir des données saisies. Les hypothèses de récupération sont
+                        indicatives et doivent être validées lors d'un audit préalable. Ce simulateur constitue un outil
+                        d'aide à la décision stratégique, non une garantie contractuelle.
+                    </p>
+                </div>
+
+            </div><!-- /right col -->
+        </div><!-- /grid -->
+    </div><!-- /max-w -->
+
+    <script>
+        const SEUIL_MIN = 5000;
+
+        function formatEuro(val) {
+            return new Intl.NumberFormat('fr-FR', {
+                style: 'currency', currency: 'EUR', maximumFractionDigits: 0
+            }).format(Math.round(val));
+        }
+
+        const champsRequis = [
+            { id: 'inp-lots', hint: 'hint-lots' },
+            { id: 'inp-pct', hint: 'hint-pct' },
+            { id: 'inp-moy', hint: 'hint-moy' },
+            { id: 'inp-appels', hint: 'hint-appels' },
+        ];
+
+        function validerChamps() {
+            let ok = true;
+            champsRequis.forEach(c => {
+                const input = document.getElementById(c.id);
+                const hint = document.getElementById(c.hint);
+                const val = parseFloat(input.value);
+                if (!val || val <= 0) {
+                    input.classList.add('field-error');
+                    hint.classList.add('visible');
+                    ok = false;
+                } else {
+                    input.classList.remove('field-error');
+                    hint.classList.remove('visible');
+                }
+            });
+            return ok;
+        }
+
+        function set(id, v) { document.getElementById(id).innerText = v; }
+        function show(id) { document.getElementById(id).style.display = 'block'; }
+        function hide(id) { document.getElementById(id).style.display = 'none'; }
+        function showFlex(id) { document.getElementById(id).style.display = 'flex'; }
+
+        function dimmerSections(dim) {
+            ['section-stock', 'section-recup', 'section-ops', 'section-renta',
+                'section-tables', 'section-inaction'].forEach(s => {
+                    const el = document.getElementById(s);
+                    dim ? el.classList.add('dimmed') : el.classList.remove('dimmed');
+                });
+        }
+
+        function showSyntheseChiffree(show_) {
+            document.getElementById('synthese-chiffree').style.display = show_ ? '' : 'none';
+            document.getElementById('synthese-alternative').style.display = show_ ? 'none' : '';
+        }
+
+        function resetDashes() {
+            ['res-bloque', 'res-recup-stock', 'res-valeur-temps', 'res-inaction', 'alert-inaction',
+                'ii-cash', 'ii-invest', 'sens-15-cash', 'sens-15-roi', 'sens-20-cash',
+                'sens-20-roi', 'sens-30-cash', 'sens-30-roi'].forEach(id => set(id, '—'));
+            ['res-heures-an', 'ii-couvert', 'sr-setup', 'sr-60j', 'sr-positif', 'txt-bloque', 'txt-recup', 'txt-pm'].forEach(id => set(id, '—'));
+            document.getElementById('res-heures-label').classList.add('hidden');
+            document.getElementById('ii-couvert-label').classList.add('hidden');
+            document.getElementById('msg-faible').classList.add('hidden');
+        }
+
+        function calculate() {
+            const lots = parseFloat(document.getElementById('inp-lots').value) || 0;
+            const pct = parseFloat(document.getElementById('inp-pct').value) || 0;
+            const moy = parseFloat(document.getElementById('inp-moy').value) || 0;
+            const appels = parseFloat(document.getElementById('inp-appels').value) || 0;
+            const taux = parseFloat(document.getElementById('inp-taux').value) || 0;
+            const coutm = parseFloat(document.getElementById('inp-coutm').value) || 0;
+            const frais = parseFloat(document.getElementById('inp-frais').value) || 0;
+
+            const ok = validerChamps();
+
+            if (!ok || lots === 0 || pct === 0 || moy === 0 || appels === 0) {
+                dimmerSections(true);
+                showSyntheseChiffree(false);
+                resetDashes();
+                return;
+            }
+
+            // ── Calculs ──────────────────────────────────────────────
+            const impayesNb = lots * (pct / 100);
+            const tresoBloquee = impayesNb * moy;
+            const recupStock20 = tresoBloquee * 0.20;
+
+            const cout60 = (coutm * 2) + frais;
+            const coutAnnuel = (coutm * 12) + frais;
+
+            const appelsFiltres = appels * 0.70;
+            const heuresAn = Math.round((appelsFiltres * 5 / 60) * 52);
+            const valeurTemps = heuresAn * taux;
+
+            const srSetup = moy > 0 ? Math.ceil(frais / moy) : 0;
+            const sr60 = moy > 0 ? Math.ceil(cout60 / moy) : 0;
+
+            const s15 = tresoBloquee * 0.15;
+            const s20 = tresoBloquee * 0.20;
+            const s30 = tresoBloquee * 0.30;
+
+            const coutInaction = Math.round(recupStock20 / 2);
+
+            // ── Affichage ─────────────────────────────────────────────
+            dimmerSections(false);
+
+            // Message potentiel faible
+            const msgFaible = document.getElementById('msg-faible');
+            recupStock20 < SEUIL_MIN
+                ? msgFaible.classList.remove('hidden')
+                : msgFaible.classList.add('hidden');
+
+            // Synthèse chiffrée vs alternative
+            if (recupStock20 >= SEUIL_MIN) {
+                showSyntheseChiffree(true);
+                set('txt-bloque', formatEuro(tresoBloquee));
+                set('txt-recup', formatEuro(recupStock20));
+                set('txt-pm', sr60);
+            } else {
+                showSyntheseChiffree(false);
+            }
+
+            // Sections chiffrées
+            set('res-bloque', formatEuro(tresoBloquee));
+            set('res-recup-stock', formatEuro(recupStock20));
+
+            document.getElementById('res-heures-an').innerText = heuresAn;
+            document.getElementById('res-heures-label').classList.remove('hidden');
+            set('res-valeur-temps', formatEuro(valeurTemps));
+
+            set('res-inaction', formatEuro(coutInaction));
+            set('alert-inaction', formatEuro(coutInaction));
+
+            set('ii-cash', formatEuro(recupStock20));
+            set('ii-invest', formatEuro(cout60));
+            document.getElementById('ii-couvert').innerText = sr60;
+            document.getElementById('ii-couvert-label').classList.remove('hidden');
+
+            set('sens-15-cash', formatEuro(s15));
+            set('sens-15-roi', formatEuro(s15 - cout60));
+            set('sens-20-cash', formatEuro(s20));
+            set('sens-20-roi', formatEuro(s20 - cout60));
+            set('sens-30-cash', formatEuro(s30));
+            set('sens-30-roi', formatEuro(s30 - cout60));
+
+            set('sr-setup', srSetup);
+            set('sr-60j', sr60);
+            set('sr-positif', sr60);
+        }
+
+        window.addEventListener('DOMContentLoaded', calculate);
+    </script>
+</body>
+
+</html>

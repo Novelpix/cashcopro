@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genesis - Pitch Deck</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            position: relative;
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            /* Slide original dimensions are 1280x720 */
+            width: 1280px;
+            height: 720px;
+            /* Scale down dynamically if screen is too small */
+            max-width: 95vw;
+            max-height: 95vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scale container content to fit inside dynamic container */
+        .slide-scaler {
+            width: 1280px;
+            height: 720px;
+            transform-origin: center center;
+            overflow: hidden;
+        }
+
+        iframe {
+            border: none;
+            width: 1280px;
+            height: 720px;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: -60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        body:hover .controls {
+            opacity: 1;
+        }
+
+        button {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #counter {
+            color: #475569;
+            font-weight: bold;
+            font-size: 15px;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slide-container" id="container">
+        <div class="slide-scaler" id="scaler">
+            <iframe id="slide-frame" src="slide1.html"></iframe>
+        </div>
+
+        <div class="controls text-slate-500">
+            <button onclick="prevSlide()">❮ Précédent</button>
+            <div id="counter">1 / 6</div>
+            <button onclick="nextSlide()">Suivant ❯</button>
+        </div>
+    </div>
+
+    <script>
+        const slides = ['slide1.html', 'slide2.html', 'slide3.html', 'slide4.html', 'slide5.html', 'slide6.html'];
+        let currentIndex = 0;
+
+        const iframe = document.getElementById('slide-frame');
+        const counter = document.getElementById('counter');
+        const container = document.getElementById('container');
+        const scaler = document.getElementById('scaler');
+
+        function updateSlide() {
+            iframe.src = slides[currentIndex];
+            counter.innerText = (currentIndex + 1) + " / " + slides.length;
+        }
+
+        function nextSlide() {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlide();
+            }
+        }
+
+        /* Keyboard navigation */
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        /* Setup scaling for smaller screens */
+        function scaleSlide() {
+            const viewportW = window.innerWidth;
+            const viewportH = window.innerHeight;
+
+            // Available space minus margin
+            const maxW = viewportW * 0.95;
+            const maxH = viewportH * 0.85; // Leave room for controls
+
+            // Calculate ratios
+            const scaleW = maxW / 1280;
+            const scaleH = maxH / 720;
+
+            const scale = Math.min(scaleW, scaleH, 1); // Don't scale up past original size
+
+            scaler.style.transform = `scale(${scale})`;
+            container.style.width = `${1280 * scale}px`;
+            container.style.height = `${720 * scale}px`;
+        }
+
+        window.addEventListener('resize', scaleSlide);
+        scaleSlide(); // Initial scaling
+    </script>
+</body>
+
+</html>

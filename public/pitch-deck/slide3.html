@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
+    <title>Slide 3 - Problématiques de la niche</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f4f8',
+                            800: '#102a43', // Dark Blue
+                            900: '#0a192f',
+                        },
+                        danger: '#ef4444',
+                        cash: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f1f5f9;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .problem-card {
+            border-left: 5px solid #102a43;
+            transition: transform 0.2s;
+        }
+
+        .problem-card:hover {
+            transform: scale(1.02);
+        }
+
+        .cost-banner {
+            background: repeating-linear-gradient(45deg, #0a192f, #0a192f 10px, #102a43 10px, #102a43 20px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide bg-slate-50">
+
+        <!-- Header -->
+        <header class="bg-white flex-none px-16 py-8 border-b border-slate-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <span
+                        class="text-brand-800 text-xs font-bold uppercase tracking-widest bg-brand-50 px-3 py-1 rounded">Analyse
+                        Secteur</span>
+                    <h1 class="text-4xl font-extrabold text-brand-900 mt-2">
+                        Défis structurels des syndics indépendants.
+                    </h1>
+                </div>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&h=200&fit=crop"
+                    class="w-16 h-16 rounded-full border-2 border-brand-800 shadow-md grayscale" alt="Context">
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex-1 px-16 py-8 flex flex-col justify-between">
+
+            <!-- Grid of 4 Problems -->
+            <div class="grid grid-cols-2 gap-8 mb-12">
+
+                <!-- Card 1 -->
+                <div class="problem-card bg-white p-6 rounded-r-xl shadow-sm">
+                    <div class="flex items-center gap-4 mb-2">
+                        <i class="fa-solid fa-file-invoice-dollar text-danger text-3xl"></i>
+                        <h3 class="font-bold text-xl text-brand-900">Impayés élevés</h3>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="problem-card bg-white p-6 rounded-r-xl shadow-sm">
+                    <div class="flex items-center gap-4 mb-2">
+                        <i class="fa-solid fa-headphones text-orange-500 text-3xl"></i>
+                        <h3 class="font-bold text-xl text-brand-900">Surcharge emails / téléphone</h3>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="problem-card bg-white p-6 rounded-r-xl shadow-sm">
+                    <div class="flex items-center gap-4 mb-2">
+                        <i class="fa-solid fa-stopwatch text-blue-500 text-3xl"></i>
+                        <h3 class="font-bold text-xl text-brand-900">Temps non productif</h3>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="problem-card bg-white p-6 rounded-r-xl shadow-sm">
+                    <div class="flex items-center gap-4 mb-2">
+                        <i class="fa-solid fa-user-injured text-purple-500 text-3xl"></i>
+                        <h3 class="font-bold text-xl text-brand-900">Recrutement difficile</h3>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cost Banner -->
+            <div class="cost-banner rounded-2xl p-8 text-white text-center shadow-lg relative overflow-hidden mb-8">
+                <i
+                    class="fa-solid fa-calculator absolute -left-10 -bottom-10 text-9xl text-white opacity-5 transform rotate-12"></i>
+                <div class="relative z-10">
+                    <p class="text-2xl font-bold mb-2">Coût d’opportunité :</p>
+                    <p class="text-xl text-brand-300 font-medium">Temps + trésorerie + capacité limitée.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
