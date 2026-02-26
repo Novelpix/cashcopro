@@ -58,7 +58,7 @@ export default function Simulateur() {
               <AlertCircle className="w-8 h-8 text-amber-500" />
             </div>
             <h1 className="text-2xl font-black text-[#0f172a] mb-3">
-              Accès via estimation requis
+              Accès via projection requis
             </h1>
             <p className="text-gray-500 text-sm leading-relaxed mb-8">
               Le simulateur est accessible uniquement après validation de votre profil.
@@ -68,7 +68,7 @@ export default function Simulateur() {
               href="/estimation"
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-widest uppercase px-8 py-4 rounded-xl transition-colors shadow-lg shadow-blue-600/25 group"
             >
-              <span>Commencer l&apos;estimation</span>
+              <span>Accéder à la projection</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </a>
             <div className="mt-6">
@@ -95,7 +95,7 @@ export default function Simulateur() {
         border: "none",
         display: "block",
       }}
-      title="Simulateur Novelpix"
+      title="Simulateur de projection Novelpix"
     />
   );
 }

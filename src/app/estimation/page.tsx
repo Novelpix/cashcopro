@@ -115,13 +115,13 @@ export default function Estimation() {
             </div>
 
             <h1 className="text-3xl md:text-4xl font-black text-[#0f172a] leading-tight mb-4">
-              Estimation confidentielle
+              Projection de trésorerie
               <br />
               <span className="text-blue-600">— 2 minutes</span>
             </h1>
             <p className="text-gray-500 text-base leading-relaxed max-w-sm mx-auto">
-              Renseignez vos informations pour accéder au simulateur personnalisé. 
-              Réservé aux cabinets de syndic professionnels.
+              Renseignez vos informations pour accéder au simulateur personnalisé.<br />
+              <span className="text-xs text-gray-400">Basée uniquement sur vos données saisies — non contractuel.</span>
             </p>
           </motion.div>
 
@@ -155,11 +155,10 @@ export default function Estimation() {
                   value={formData.lots}
                   onChange={handleChange}
                   placeholder="ex : 1 200"
-                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all text-sm font-medium ${
-                    errors.lots
+                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all text-sm font-medium ${errors.lots
                       ? "border-red-300 focus:ring-red-200"
                       : "border-gray-200 focus:border-blue-500 focus:ring-blue-100"
-                  }`}
+                    }`}
                 />
                 {errors.lots && (
                   <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.lots}</p>
@@ -173,7 +172,7 @@ export default function Estimation() {
                   className="block text-xs font-bold tracking-widest uppercase text-gray-500 mb-2"
                 >
                   <Calculator className="inline w-3.5 h-3.5 mr-1.5 text-blue-500" />
-                  Stock d&apos;impayés estimé (€)
+                  Stock d&apos;impayés (valeur approchée, €)
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <input
@@ -184,11 +183,10 @@ export default function Estimation() {
                   value={formData.impayes}
                   onChange={handleChange}
                   placeholder="ex : 300 000"
-                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all text-sm font-medium ${
-                    errors.impayes
+                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all text-sm font-medium ${errors.impayes
                       ? "border-red-300 focus:ring-red-200"
                       : "border-gray-200 focus:border-blue-500 focus:ring-blue-100"
-                  }`}
+                    }`}
                 />
                 {errors.impayes && (
                   <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.impayes}</p>
@@ -209,11 +207,10 @@ export default function Estimation() {
                   name="logiciel"
                   value={formData.logiciel}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 focus:outline-none focus:ring-2 transition-all text-sm font-medium appearance-none cursor-pointer ${
-                    errors.logiciel
+                  className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl text-gray-900 focus:outline-none focus:ring-2 transition-all text-sm font-medium appearance-none cursor-pointer ${errors.logiciel
                       ? "border-red-300 focus:ring-red-200"
                       : "border-gray-200 focus:border-blue-500 focus:ring-blue-100"
-                  } ${formData.logiciel === "" ? "text-gray-300" : "text-gray-900"}`}
+                    } ${formData.logiciel === "" ? "text-gray-300" : "text-gray-900"}`}
                 >
                   <option value="" disabled>
                     Sélectionner votre logiciel
@@ -231,13 +228,12 @@ export default function Estimation() {
 
               {/* Checkbox confirmation */}
               <div
-                className={`flex items-start gap-3 p-4 rounded-xl border transition-colors ${
-                  errors.isSyndic
+                className={`flex items-start gap-3 p-4 rounded-xl border transition-colors ${errors.isSyndic
                     ? "border-red-200 bg-red-50"
                     : formData.isSyndic
-                    ? "border-green-200 bg-green-50"
-                    : "border-gray-200 bg-gray-50"
-                }`}
+                      ? "border-green-200 bg-green-50"
+                      : "border-gray-200 bg-gray-50"
+                  }`}
               >
                 <input
                   type="checkbox"
@@ -253,7 +249,7 @@ export default function Estimation() {
                 >
                   Je confirme agir pour un{" "}
                   <strong className="text-[#0f172a]">cabinet de syndic</strong>{" "}
-                  professionnel et souhaite accéder à l&apos;estimation personnalisée.
+                  professionnel et souhaite accéder à la projection personnalisée.
                 </label>
               </div>
               {errors.isSyndic && (

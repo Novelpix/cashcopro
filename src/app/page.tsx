@@ -88,8 +88,8 @@ const faqs = [
     a: "Un pilote peut être activé en 60 jours sur un périmètre limité. Les indicateurs sont mesurés avant toute extension.",
   },
   {
-    q: "Quelles données sont nécessaires pour l'estimation ?",
-    a: "Nous travaillons à partir de vos balances âgées et du stock d'impayés identifié. Aucune donnée sensible n'est requise pour l'estimation initiale.",
+    q: "Quelles données sont nécessaires pour la projection ?",
+    a: "Nous travaillons à partir de vos balances âgées et du stock d'impayés identifié. Aucune donnée sensible n'est requise pour la projection initiale.",
   },
 ];
 
@@ -158,9 +158,10 @@ export default function Home() {
             ))}
           </div>
           {/* CTA */}
-          <a href="#demo"
-            className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold tracking-widest uppercase px-5 py-2.5 rounded-lg transition-colors">
-            Lancer l&apos;estimation
+          <a href="/estimation"
+            className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold tracking-widest uppercase px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg transition-colors">
+            <span className="hidden sm:inline">Estimer ma trésorerie</span>
+            <span className="sm:hidden">ESTIMER</span>
           </a>
         </div>
       </nav>
@@ -182,40 +183,33 @@ export default function Home() {
 
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <FadeUp>
-            <Badge color="blue" icon={<TrendingUp className="w-3 h-3" />}>
-              Une nouvelle catégorie d&apos;optimisation dédiée aux syndics indépendants
-            </Badge>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold tracking-wide bg-blue-100 text-blue-700 border-blue-200">
+              Syndics indépendants (800–2 000 lots)
+            </span>
           </FadeUp>
 
           <FadeUp delay={0.08}>
             <h1 className="mt-8 font-black text-[#0f172a] leading-[1.08] tracking-tight"
-              style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4rem)' }}>
-              Libérez{' '}
-              <span className="text-blue-600">20 % à 40 %</span>
+              style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)' }}>
+              Transformez vos impayés{' '}
+              <span className="text-blue-600">en trésorerie active</span>
               <br />
-              de votre trésorerie
-              <br />
-              immobilisée en 60 jours.
+              sous 60 jours.
             </h1>
           </FadeUp>
 
           <FadeUp delay={0.14}>
-            <p className="mt-6 text-gray-500 text-lg leading-relaxed max-w-lg mx-auto">
-              Approche structurée intégrée à vos outils existants.<br />
-              Sans migration. Sans rupture organisationnelle.
+            <p className="mt-4 sm:mt-6 text-gray-500 text-base sm:text-lg leading-relaxed max-w-lg mx-auto">
+              Méthode intégrée à votre logiciel existant.<br className="hidden sm:block" /> Sans migration ni rupture.
             </p>
           </FadeUp>
 
           <FadeUp delay={0.2}>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 sm:mt-10 flex items-center justify-center">
               <a href="/estimation"
-                className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase px-8 py-4 rounded-xl transition-colors group shadow-lg shadow-blue-600/25">
-                Lancer l&apos;estimation
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase px-8 py-4 rounded-xl transition-colors group shadow-lg shadow-blue-600/25">
+                Estimer ma trésorerie
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </a>
-              <a href="#demo"
-                className="inline-flex items-center gap-3 border border-blue-200 text-blue-600 hover:bg-blue-50 font-bold text-sm tracking-wide uppercase px-8 py-4 rounded-xl transition-colors">
-                Planifier un RDV
               </a>
             </div>
           </FadeUp>
@@ -228,11 +222,11 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5 text-yellow-500" />
-                Analyse personnalisée
+                Intégré à vos outils
               </span>
               <span className="flex items-center gap-1.5">
                 <TrendingUp className="w-3.5 h-3.5 text-blue-500" />
-                À partir de vos données
+                Résultats mesurés sous 60 j
               </span>
             </div>
           </FadeUp>
@@ -240,77 +234,106 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════
-          KPI CARDS (sous le hero)
+          PREUVE IMMÉDIATE — Simulation réelle
          ════════════════════════════════════════════════════ */}
       <section className="bg-gradient-to-b from-[#eef2ff] to-white py-16">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { icon: '⚡', val: '60 jours', label: "Délai d'activation pilote", color: 'text-yellow-500' },
-              { icon: '🏢', val: '+1', label: 'Immeuble / gestionnaire visé', color: 'text-blue-500' },
-              { icon: '📈', val: '25 %', label: 'Hypothèse de récupération cible', color: 'text-green-500' },
-            ].map((kpi, i) => (
-              <FadeUp key={i} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                  <span className="text-3xl">{kpi.icon}</span>
-                  <p className={`mt-3 text-2xl font-black ${kpi.color}`}>{kpi.val}</p>
-                  <p className="mt-1 text-[10px] font-bold tracking-widest uppercase text-gray-400">{kpi.label}</p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
+        <div className="max-w-3xl mx-auto px-6">
+          <FadeUp className="text-center mb-8">
+            <Badge color="blue" icon={<Calculator className="w-3 h-3" />}>
+              Simulation réelle
+            </Badge>
+            <h2 className="mt-4 text-2xl md:text-3xl font-black text-[#0f172a]">
+              Cabinet représentatif : <span className="text-blue-600">1 200 lots</span>
+            </h2>
+          </FadeUp>
+          <FadeUp delay={0.08}>
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-3 sm:gap-4">
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 sm:p-6 text-center">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-1 sm:mb-2">Cabinet</p>
+                <p className="text-xl sm:text-2xl font-black text-[#0f172a]">1 200 lots</p>
+              </div>
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 sm:p-6 text-center">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-1 sm:mb-2">Stock d&apos;impayés</p>
+                <p className="text-xl sm:text-2xl font-black text-[#0f172a]">300 000 €</p>
+              </div>
+              <div className="bg-green-50 rounded-2xl border border-green-200 shadow-sm p-5 sm:p-6 text-center">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-green-600 mb-1 sm:mb-2">Mobilisable sous 60 j</p>
+                <p className="text-xl sm:text-2xl font-black text-green-600">+ 75 000 €</p>
+              </div>
+            </div>
+            <p className="mt-4 text-center text-[10px] sm:text-xs text-gray-400">
+              Hypothèse prudente : 25 % sous 60 jours.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════
-          SIMULATION DE RÉFÉRENCE (hero section)
+          TENSION RATIONNELLE — Le coût du délai
          ════════════════════════════════════════════════════ */}
       <section id="strategie" className="py-20 bg-white">
         <div className="max-w-2xl mx-auto px-6">
           <FadeUp className="text-center mb-10">
-            <Badge color="blue" icon={<Calculator className="w-3 h-3" />}>
-              Simulation de référence
+            <Badge color="orange" icon={<AlertTriangle className="w-3 h-3" />}>
+              Tension financière
             </Badge>
             <h2 className="mt-5 text-3xl md:text-4xl font-black text-[#0f172a]">
-              Cabinet <span className="text-blue-600">1 200 lots</span>
+              Le coût du délai
             </h2>
           </FadeUp>
 
           <FadeUp delay={0.08}>
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-md p-6">
-              {/* 3 metric boxes */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="rounded-xl border border-gray-200 p-5">
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">Stock d&apos;impayés identifié</p>
-                  <p className="text-2xl font-black text-[#0f172a]">300 000 €</p>
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-2xl shadow-blue-900/5 overflow-hidden max-w-xl mx-auto relative group">
+              {/* Liseré haut rouge discret */}
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 to-orange-400"></div>
+
+              <div className="p-8 sm:p-10">
+                {/* Calcul structuré premium */}
+                <div className="mb-6 sm:mb-8 p-5 sm:p-8 bg-slate-50/50 rounded-2xl border border-slate-100/50 shadow-inner">
+                  <div className="flex justify-between items-center mb-3 sm:mb-4 text-xs sm:text-sm">
+                    <span className="font-semibold text-slate-500">Base d&apos;impayés</span>
+                    <span className="font-bold text-[#0f172a] sm:text-lg">300 000 €</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-3 sm:mb-4 text-xs sm:text-sm">
+                    <span className="font-semibold text-slate-500">Objectif (25%)</span>
+                    <span className="font-bold text-[#0f172a] sm:text-lg">75 000 €</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 sm:pb-6 border-b-2 border-dashed border-slate-200 text-xs sm:text-sm">
+                    <span className="font-semibold text-slate-500">Divisé par (délai 2 mois)</span>
+                    <span className="font-bold text-[#0f172a] sm:text-lg">÷ 2</span>
+                  </div>
+
+                  <div className="mt-6 sm:mt-8 text-center pt-2">
+                    <div className="text-4xl sm:text-6xl font-black text-red-600 tracking-tight flex items-center justify-center gap-1 mb-2">
+                      37 500 € <span className="text-lg sm:text-3xl text-red-500/80 ml-1">/ mois</span>
+                    </div>
+                    <span className="inline-block px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-[10px] sm:text-xs font-bold uppercase shadow-sm">
+                      immobilisés par décalage (exemple ci-dessus)
+                    </span>
+                  </div>
                 </div>
-                <div className="rounded-xl border border-green-200 bg-green-50 p-5">
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-green-600 mb-2">
-                    <TrendingUp className="inline w-3 h-3 mr-1" />
-                    Récupération potentielle (25%)
+
+                <div className="bg-orange-50/50 rounded-xl p-5 border border-orange-100/50">
+                  <p className="text-center text-slate-700 text-sm font-medium leading-relaxed">
+                    Chaque mois de délai retarde mécaniquement la mobilisation partielle de votre trésorerie.
                   </p>
-                  <p className="text-2xl font-black text-green-600">+ 75 000 €</p>
-                </div>
-                <div className="rounded-xl border border-red-200 bg-red-50 p-5">
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-red-500 mb-2">
-                    <AlertTriangle className="inline w-3 h-3 mr-1" />
-                    Coût mensuel de l&apos;inaction
-                  </p>
-                  <p className="text-2xl font-black text-red-500 leading-tight">- 37 500 €<br /><span className="text-lg">/ mois</span></p>
                 </div>
               </div>
 
-              {/* CTA */}
-              <a href="/estimation"
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-wide uppercase py-4 rounded-xl transition-colors group">
-                <Calculator className="w-4 h-4" />
-                Calculer mon potentiel
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </a>
-              <p className="mt-3 text-center text-xs text-gray-400">
-                Accès réservé aux cabinets de syndic professionnels.<br />
-                Estimation confidentielle — 2 minutes.
-              </p>
+              <div className="p-6 bg-[#0f172a] text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-blue-600/10 transition-colors duration-500"></div>
+                <div className="relative z-10">
+                  <a href="/estimation"
+                    className="w-full inline-flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm tracking-widest uppercase px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-blue-500/25">
+                    <Calculator className="w-4 h-4 text-blue-200" />
+                    Calculer ma projection
+                    <ArrowRight className="w-4 h-4 text-blue-200 transition-all" />
+                  </a>
+                  <p className="mt-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+                    Projection instantanée — 2 minutes. Non contractuelle.
+                  </p>
+                </div>
+              </div>
             </div>
           </FadeUp>
         </div>
@@ -376,94 +399,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════
-          IMPACT FINANCIER
-         ════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <FadeUp className="text-center mb-12">
-            <Badge color="green" icon={<DollarSign className="w-3 h-3" />}>
-              Impact financier
-            </Badge>
-            <h2 className="mt-5 text-3xl md:text-4xl font-black text-[#0f172a]">
-              Libérer le <span className="text-green-600">cash immobilisé.</span>
-            </h2>
-            <p className="mt-4 text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
-              Calcul financier structuré. Nous ne visons pas une réorganisation globale de votre entreprise, mais une injection directe de liquidités sur la base de vos créances actuelles.
-            </p>
-          </FadeUp>
-
-          {/* Photo financière */}
-          <FadeUp delay={0.04}>
-            <div className="rounded-2xl overflow-hidden mb-10 h-48 relative">
-              <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=70&auto=format&fit=crop"
-                alt="Financial charts"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent" />
-            </div>
-          </FadeUp>
-
-          <FadeUp delay={0.1}>
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
-              {/* Header */}
-              <div className="px-8 py-5 border-b border-gray-100 text-center">
-                <span className="text-sm font-black tracking-widest uppercase text-blue-600">Simulation de référence</span>
-              </div>
-
-              {/* Rows */}
-              <div className="divide-y divide-gray-100">
-                <div className="grid grid-cols-2 divide-x divide-gray-100">
-                  <div className="px-8 py-5 flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Cabinet représentatif (Volume)</span>
-                    <span className="font-black text-[#0f172a]">1 200 lots</span>
-                  </div>
-                  <div className="px-8 py-5 flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Stock d&apos;impayés identifié</span>
-                    <span className="font-black text-[#0f172a]">300 000 €</span>
-                  </div>
-                </div>
-                <div className="px-8 py-5 bg-green-50 flex justify-between items-center">
-                  <span className="text-green-700 text-sm font-medium">
-                    <TrendingUp className="inline w-4 h-4 mr-1" />
-                    Récupération potentielle (25%)
-                  </span>
-                  <span className="font-black text-green-600 text-xl">+ 75 000 €</span>
-                </div>
-              </div>
-
-              {/* Formule inaction */}
-              <div className="px-8 py-6 border-t border-gray-100">
-                <p className="text-center font-black text-red-600 uppercase tracking-widest text-sm mb-4">
-                  Le coût mensuel de l&apos;inaction.
-                </p>
-                <div className="bg-red-50 border border-red-100 rounded-xl p-5 text-center">
-                  <p className="font-mono text-xs text-gray-500 leading-relaxed">
-                    Coût d&apos;inaction mensuel estimatif =<br />
-                    Stock immobilisé × (Hypothèse récupération / 60 jours) × 30 jours
-                  </p>
-                  <p className="text-red-500 font-medium text-xs mt-2">Trésorerie retenue par mois de délai</p>
-                  <p className="font-black text-red-600 text-3xl mt-3">- 37 500 €</p>
-                </div>
-                <p className="mt-4 text-center text-xs text-gray-400">
-                  Chaque mois de décalage retarde mécaniquement la mobilisation partielle de cette trésorerie.
-                </p>
-              </div>
-
-              <div className="px-8 pb-6 text-center text-xs text-gray-400">
-                Calcul basé exclusivement sur les données saisies. Aucune hypothèse externe non visible.
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
+      {/* Suppression intentionnelle de la section impact financier redondante */}
 
       {/* ════════════════════════════════════════════════════
           CASH-CONTROL — Méthode
          ════════════════════════════════════════════════════ */}
       <section id="methode" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6">
+          {/* Positionnement stratégique */}
+          <FadeUp className="mb-14">
+            <div className="rounded-2xl p-6 sm:p-8 text-center" style={{ background: 'linear-gradient(135deg, #eff6ff, #f0fdf4)' }}>
+              <p className="text-lg sm:text-xl font-black text-[#0f172a] leading-tight sm:leading-snug mb-4 sm:mb-2">
+                Nous n’augmentons pas vos honoraires.<br />
+                <span className="text-blue-600">Nous optimisons votre stock existant.</span>
+              </p>
+              <ul className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 text-sm text-gray-700">
+                {[
+                  '✔ Priorisation balances âgées',
+                  '✔ Relances structurées',
+                  '✔ Pilotage dirigeant',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 font-semibold">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeUp>
+
           <FadeUp className="text-center mb-12">
             <Badge color="blue" icon={<TrendingUp className="w-3 h-3" />}>
               Cash-Control
@@ -693,7 +656,7 @@ export default function Home() {
 
           <FadeUp delay={0.08}>
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-6 hidden sm:block">
               <p className="text-xs font-black tracking-widest uppercase text-gray-400 flex items-center gap-2">
                 <span className="w-4 h-4 bg-red-100 rounded-full flex items-center justify-center">
                   <span className="text-red-500 font-black text-[10px]">✕</span>
@@ -701,22 +664,16 @@ export default function Home() {
                 Ce que nous ne faisons pas
               </p>
             </div>
-            {/* Grille 2×2 */}
-            <div className="grid md:grid-cols-2 gap-4">
+            {/* Liste concise */}
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3">
               {[
-                { title: "Nous ne remplaçons pas votre comptabilité.", desc: "ICS, Septeo, Vilogi ou Arcopole demeurent les uniques référentiels." },
-                { title: "Nous ne modifions pas vos AG.", desc: "Le processus institutionnel et légal de l'immeuble reste entre les mains du gestionnaire." },
-                { title: "Nous ne recréons pas un extranet.", desc: "Nous n'imposons aucune plateforme tierce à vos clients." },
-                { title: "Nous n'intervenons pas dans vos décisions juridiques.", desc: "Le système est un outil limitant le chaos ; il ne tranche jamais un contentieux complexe." },
+                "✘ Pas d’ERP — vos logiciels restent uniques.",
+                "✘ Pas de modif. d’AG — le légal reste à vous.",
+                "✘ Pas d’arbitrage juridique — aucun contentieux.",
+                "✘ Pas de plateforme imposée aux copropriétaires.",
               ].map((item, i) => (
-                <div key={i} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-red-500 font-black text-xs">✕</span>
-                  </div>
-                  <div>
-                    <p className="font-bold text-[#0f172a] text-sm">{item.title}</p>
-                    <p className="text-gray-500 text-xs mt-1 leading-relaxed">{item.desc}</p>
-                  </div>
+                <div key={i} className="bg-white rounded-xl border border-gray-200 shadow-sm px-4 py-3 sm:px-5 sm:py-4">
+                  <p className="text-gray-700 text-[13px] sm:text-sm font-medium">{item}</p>
                 </div>
               ))}
             </div>
@@ -797,6 +754,9 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-6 pt-6 border-t border-white/10 text-center">
+            <p className="text-sm text-white/50 font-medium italic mb-3">
+              « Le modèle ne change pas. Le rythme de récupération, oui. »
+            </p>
             <p className="text-xs text-white/20 leading-relaxed max-w-2xl mx-auto">
               Novelpix propose des solutions d&apos;optimisation de trésorerie dédiées aux syndics indépendants.<br />
               Notre approche structurée s&apos;intègre à vos outils existants sans migration ni rupture organisationnelle.
@@ -804,6 +764,19 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* ════════════════════════════════════════════════════
+          STICKY BOTTOM BAR MOBILE
+         ════════════════════════════════════════════════════ */}
+      <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 sm:hidden z-50 shadow-[0_-10px_15px_-3px_rgb(0,0,0,0.05)] pb-safe">
+        <a href="#demo"
+          className="w-full flex items-center justify-center bg-blue-600 text-white font-black text-xs tracking-widest uppercase py-4 rounded-xl shadow-lg">
+          DEMANDER L&apos;ANALYSE
+        </a>
+        <p className="text-center text-[9px] text-gray-500 mt-2 font-medium uppercase tracking-widest">Réponse sous 24h. Aucun engagement.</p>
+      </div>
+      {/* Padding additif à la fin pour ne pas masquer de contenu avec la sticky bar */}
+      <div className="h-24 sm:h-0"></div>
 
     </div>
   );

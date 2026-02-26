@@ -58,10 +58,10 @@ export function AuditSection() {
                         </span>
                     </div>
                     <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">
-                        Activer l&apos;estimation <span className="text-green-600">confidentielle.</span>
+                        Demander une <span className="text-green-600">analyse confidentielle.</span>
                     </h2>
                     <p className="text-xl text-gray-600 mb-4 font-semibold uppercase tracking-widest text-sm">
-                        Planifier l&apos;estimation confidentielle
+                        Analyse de votre potentiel de trésorerie
                     </p>
                     <p className="text-blue-600 font-bold text-xs tracking-[0.2em] uppercase">
                         Données réelles. Décision éclairée.
@@ -144,6 +144,7 @@ export function AuditSection() {
                                         type="tel"
                                         id="phone"
                                         name="phone"
+                                        inputMode="tel"
                                         required
                                         value={formData.phone}
                                         onChange={handleChange}
@@ -160,6 +161,8 @@ export function AuditSection() {
                                         </label>
                                         <input
                                             type="number"
+                                            inputMode="numeric"
+                                            pattern="[0-9]*"
                                             id="lots"
                                             name="lots"
                                             value={formData.lots}
@@ -175,6 +178,8 @@ export function AuditSection() {
                                         </label>
                                         <input
                                             type="number"
+                                            inputMode="numeric"
+                                            pattern="[0-9]*"
                                             id="impayes"
                                             name="impayes"
                                             value={formData.impayes}
@@ -195,15 +200,15 @@ export function AuditSection() {
                                         <span>Envoi en cours…</span>
                                     ) : (
                                         <>
-                                            <Calendar className="w-4 h-4" />
-                                            <span>Planifier mon estimation</span>
-                                            <ArrowRight className="w-4 h-4" />
+                                            <Calendar className="hidden sm:block w-4 h-4" />
+                                            <span className="truncate">DEMANDER L&apos;ANALYSE CONFIDENTIELLE</span>
+                                            <ArrowRight className="hidden sm:block w-4 h-4" />
                                         </>
                                     )}
                                 </button>
 
-                                <p className="text-center text-xs text-gray-400 mt-2">
-                                    Estimation confidentielle réalisée en 30 minutes. Aucun engagement.
+                                <p className="text-center text-xs text-gray-400 mt-3 font-medium">
+                                    30 min. Confidentiel. Sans engagement.
                                 </p>
                             </form>
                         )}
@@ -220,7 +225,7 @@ export function AuditSection() {
                         {/* Carte bleue — En 30 minutes */}
                         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6">
                             <p className="text-blue-700 font-black text-sm tracking-wide mb-5">
-                                EN 30 MINUTES, NOUS ESTIMONS :
+                                EN 30 MINUTES, NOUS ANALYSONS :
                             </p>
                             <ul className="space-y-3">
                                 {[
@@ -253,7 +258,7 @@ export function AuditSection() {
                         <div className="bg-green-50 border border-green-100 rounded-2xl p-6">
                             <p className="font-bold text-green-600 text-sm mb-2">Sans engagement</p>
                             <p className="text-gray-600 text-xs leading-relaxed">
-                                Cette estimation est totalement gratuite et ne vous engage en aucune manière. Elle vous permettra de prendre une décision éclairée sur l&apos;opportunité d&apos;optimiser votre trésorerie.
+                                Cette analyse confidentielle est totalement gratuite et ne vous engage en aucune manière. Elle vous permettra de prendre une décision éclairée sur l&apos;opportunité d&apos;optimiser votre trésorerie.
                             </p>
                         </div>
                     </motion.div>
